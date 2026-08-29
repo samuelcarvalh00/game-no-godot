@@ -1,0 +1,124 @@
+[gd_scene format=3 uid="uid://mapaneve0001"]
+
+[ext_resource type="Script" path="res://scripts/mapa.gd" id="script_mapa"]
+[ext_resource type="Script" path="res://scripts/decoracoes.gd" id="script_decor"]
+[ext_resource type="Texture2D" uid="uid://jd3x0h37qi1x" path="res://Material freeway/wallpaperfreeway.png" id="fundo"]
+[ext_resource type="PackedScene" uid="uid://c3yxm40utdqwd" path="res://linha_de_chegada.tscn" id="linha"]
+[ext_resource type="PackedScene" uid="uid://bycco8cl10sem" path="res://galinha.tscn" id="galinha"]
+[ext_resource type="AudioStream" uid="uid://dmch48rv2ej63" path="res://Material freeway/sons/ponto.wav" id="som"]
+[ext_resource type="FontFile" uid="uid://3y2tumh4hbjv" path="res://Material freeway/PressStart2P-Regular.ttf" id="fonte"]
+
+[node name="mapa_neve" type="Node2D"]
+script = ExtResource("script_mapa")
+nome_mapa = "NEVE"
+cor_fundo = Color(0.8, 0.9, 1, 1)
+tema_decor = 2
+carros_dois_lados = true
+tem_trampolim = true
+espera_rapido = 0.24
+espera_lento = 0.5
+
+[node name="Fundo" type="Sprite2D" parent="."]
+position = Vector2(7, 62)
+scale = Vector2(1.0046874, 0.99583334)
+texture = ExtResource("fundo")
+centered = false
+
+[node name="Decoracoes" type="Node2D" parent="."]
+script = ExtResource("script_decor")
+tema = 2
+
+[node name="linha de chegada" parent="." instance=ExtResource("linha")]
+position = Vector2(-8, 90)
+collision_layer = 2
+collision_mask = 12
+
+[node name="galinha" parent="." instance=ExtResource("galinha")]
+position = Vector2(560, 660)
+collision_layer = 4
+collision_mask = 1
+player_id = 1
+nome_jogador = "Jogador 1"
+tipo_inicial = 0
+
+[node name="galinha2" parent="." instance=ExtResource("galinha")]
+position = Vector2(960, 660)
+collision_layer = 8
+collision_mask = 1
+player_id = 2
+nome_jogador = "Jogador 2"
+tipo_inicial = 1
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(555, 39)
+stream = ExtResource("som")
+
+[node name="Timercarrorapido" type="Timer" parent="."]
+wait_time = 0.24
+autostart = true
+
+[node name="Timercarrolento" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="TimerArmadilha" type="Timer" parent="."]
+wait_time = 90.0
+autostart = true
+
+[node name="TimerArma" type="Timer" parent="."]
+wait_time = 12.0
+autostart = true
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Objetivo" type="Label" parent="HUD"]
+offset_left = 200.0
+offset_top = 8.0
+offset_right = 1080.0
+offset_bottom = 34.0
+theme_override_fonts/font = ExtResource("fonte")
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+text = "OBJETIVO"
+
+[node name="Pontos1" type="Label" parent="HUD"]
+offset_left = 20.0
+offset_top = 40.0
+offset_right = 220.0
+offset_bottom = 70.0
+theme_override_fonts/font = ExtResource("fonte")
+theme_override_font_sizes/font_size = 12
+text = "P1: 0"
+
+[node name="Vidas1" type="Label" parent="HUD"]
+offset_left = 20.0
+offset_top = 72.0
+offset_right = 220.0
+offset_bottom = 102.0
+theme_override_fonts/font = ExtResource("fonte")
+theme_override_font_sizes/font_size = 12
+text = "Vidas: 3"
+
+[node name="Pontos2" type="Label" parent="HUD"]
+offset_left = 1060.0
+offset_top = 40.0
+offset_right = 1260.0
+offset_bottom = 70.0
+theme_override_fonts/font = ExtResource("fonte")
+theme_override_font_sizes/font_size = 12
+text = "P2: 0"
+
+[node name="Vidas2" type="Label" parent="HUD"]
+offset_left = 1060.0
+offset_top = 72.0
+offset_right = 1260.0
+offset_bottom = 102.0
+theme_override_fonts/font = ExtResource("fonte")
+theme_override_font_sizes/font_size = 12
+text = "Vidas: 3"
+
+[connection signal="area_entered" from="linha de chegada" to="." method="_on_linha_de_chegada_area_entered"]
+[connection signal="timeout" from="Timercarrorapido" to="." method="_on_timercarrorapido_timeout"]
+[connection signal="timeout" from="Timercarrolento" to="." method="_on_timercarrolento_timeout"]
+[connection signal="timeout" from="TimerArmadilha" to="." method="_on_timerarmadilha_timeout"]
+[connection signal="timeout" from="TimerArma" to="." method="_on_timerarma_timeout"]

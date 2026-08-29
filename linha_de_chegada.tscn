@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://c3yxm40utdqwd"]
+
+[ext_resource type="Texture2D" uid="uid://bphwne1b73edn" path="res://Material freeway/ganha.png" id="1_bjjbx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nkbks"]
+size = Vector2(1293, 38.25)
+
+[node name="linha de chegada" type="Area2D" unique_id=1706929886]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1783142672]
+position = Vector2(0, -3.5)
+scale = Vector2(1, 2.6388886)
+texture = ExtResource("1_bjjbx")
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2101566242]
+position = Vector2(642, 20.875)
+shape = SubResource("RectangleShape2D_nkbks")
